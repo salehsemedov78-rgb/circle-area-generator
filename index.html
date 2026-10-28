@@ -1,60 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Circle Calculator</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f7f6; color: #333; text-align: center; padding-top: 50px; }
-        .card { background: white; max-width: 400px; margin: auto; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        input { padding: 8px; width: 80%; margin: 10px 0; font-size: 16px; }
-        button { padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin: 5px; }
-        button:disabled { background-color: #cccccc; cursor: not-allowed; }
-        button:hover:not(:disabled) { background-color: #0056b3; }
-        p { font-size: 18px; font-weight: bold; margin-top: 20px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Circle Area Calculator</title>
 </head>
 <body>
-    <div class="card">
-        <h1>Circle Calculator</h1>
-        <label for="radius">Enter radius:</label><br>
-        <input id="radius" type="number" min="0" step="any" value="5"><br>
-        <button id="calcArea" onclick="calcAreaFn()" disabled>Loading C++...</button>
-        <button id="calcCirc" onclick="calcCircFn()" disabled>Loading C++...</button>
-        <p id="result">Result will appear here.</p>
-    </div>
-    <script>
-        var Module = {
-            onRuntimeInitialized: function () {
-                document.getElementById("calcArea").disabled = false;
-                document.getElementById("calcArea").textContent = "Calculate Area";
-                document.getElementById("calcCirc").disabled = false;
-                document.getElementById("calcCirc").textContent = "Calculate Circumference";
-            }
-        };
-        function getValidRadius() {
-            const raw = document.getElementById("radius").value;
-            const radius = Number(raw);
-            const result = document.getElementById("result");
-            if (raw.trim() === "" || !Number.isFinite(radius) || radius < 0) {
-                result.textContent = "Please enter a valid non-negative radius.";
-                return null;
-            }
-            return radius;
-        }
-        function calcAreaFn() {
-            const radius = getValidRadius();
-            if (radius === null) return;
-            const area = Module.ccall("calculateArea", "number", ["number"], [radius]);
-            document.getElementById("result").textContent = "Area = " + area.toFixed(3) + " square units";
-        }
-        function calcCircFn() {
-            const radius = getValidRadius();
-            if (radius === null) return;
-            const circ = Module.ccall("calculateCircumference", "number", ["number"], [radius]);
-            document.getElementById("result").textContent = "Circumference = " + circ.toFixed(3) + " units";
-        }
-    </script>
-    <script src="circle.js"></script>
+<h1>Circle Area Calculator</h1>
+<label for="radius">Enter radius:</label>
+<input id="radius" type="number" min="0" step="any" value="5">
+<button id="calculate" onclick="calculate()" disabled>Loading C++...</button>
+<p id="result">Result will appear here.</p>
+<script>
+var Module = {
+onRuntimeInitialized: function () {
+const button = document.getElementById("calculate");
+button.disabled = false;
+button.textContent = "Calculate Area";
+}
+};
+function calculate() {
+const raw = document.getElementById("radius").value;
+const radius = Number(raw);
+const result = document.getElementById("result");
+if (raw.trim() === "" || !Number.isFinite(radius) || radius < 0) {
+result.textContent = "Please enter a valid non-negative radius.";
+return;
+}
+const area = Module.ccall("calculateArea", "number", ["number"], [radius]);
+result.textContent = "Area = " + area.toFixed(2) + " square units";
+}
+</script>
+<script src="circle.js"></script>
 </body>
 </html>
