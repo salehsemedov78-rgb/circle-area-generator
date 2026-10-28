@@ -1,8 +1,11 @@
- double calculateArea(double r) {
+extern "C" {
+    double calculateArea(double radius) {
         const double PI = 3.141592653589793;
-        return PI * r * r;
+        return PI * radius * radius;
     }
-    double calculate(double r) {
+
+    double calculateCircumference(double radius) {
         const double PI = 3.141592653589793;
-        return 2 * PI * r;
+        return 2 * PI * radius;
     }
+}
